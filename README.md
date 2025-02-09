@@ -1,27 +1,38 @@
 # Secure Attested PCR Machine
 
-The Secure Attested PCR Machine is a modified ThermoFisher Scientific 7500 Fast real-time PCR system that incorporates tamper-proof result attestation. By integrating a Zymbit secure element, the machine cryptographically signs all test results, ensuring their authenticity and preventing manipulation. The system is designed for use in supervised laboratory environments where sample chain of custody is maintained.
+Scientific fraud kills. At Duke, 117 cancer patients received wrong treatments due to fabricated data. At Harvard, fake cardiac stem cell research led to years of invalid clinical trials. At Brigham and Women's, fictional pain studies changed treatment protocols nationwide.
 
-Key security features include:
-- Cryptographic signing of all test results via the Zymbit secure element
-- Tamper-evident resin seals on all connections and access points
-- Any attempts to open or modify the machine result in visible damage to security seals
-- Secure boot and runtime attestation of the control software
+These aren't isolated incidents. They represent a systemic problem: in biomedicine, there's currently no way to verify that published experimental results match the raw data from lab instruments.
 
-## How Do I Build The Raspberry Pi Image?
+## Solving The Problem (We Hope)
 
-There's a [Taskfile](https://taskfile.dev) in this repository that you can use to run the update scripts locally.
+We set out to take a widely-used piece of scientific equipment and make its results cryptographically verifiable, preventing result falsification. We chose PCR (Polymerase Chain Reaction) machines - the workhorses of molecular biology that detect DNA sequences in samples, used in everything from COVID testing to cancer research. By adding cryptographic signing directly to the instrument, results can't be altered after they're generated.
 
-  - Install [Taskfile](https://taskfile.dev/installation/)
-  - Install [Docker](https://www.docker.com/)
-  - Create a `workspace` directory and place your `input.img` in that
-  - Run `task build`
+Think of it as a digital notary for your PCR machine - once a result is signed, it can't be altered without detection.
 
-Alternatively, you can also manually run `docker`:
-```
-docker run --rm --privileged -v $(pwd)/workspace:/CustoPiZer/workspace $(pwd)/zymbit_image/scripts:/CustoPiZer/workspace/scripts ghcr.io/octoprint/custopizer:latest
-```
+## The Horrific Technical Struggle
 
+### Key Security Features
+* Cryptographic signing of all test results via the Zymbit secure element
+* Tamper-evident resin seals on all connections and access points
+* Any attempts to open or modify the machine result in visible damage to security seals
+* Secure boot and runtime attestation of the control software
+
+### The (Minor) Catch
+The system is designed for use in supervised laboratory environments where sample chain of custody is maintained. While the machine can't prevent sample swapping before testing, it ensures that once a sample is tested, the results cannot be manipulated.
+
+## Toward Verifiable Science
+
+This project is a first step toward a future where scientific results are cryptographically verifiable from instrument to publication. Imagine:
+* Mass spectrometers that sign their molecular weight measurements
+* DNA sequencers that produce verifiable genome data
+* Clinical trial data that can be traced back to original instruments
+* Journals that require cryptographic proof of raw data
+
+By starting with PCR - one of the most widely used and frequently manipulated techniques in biology - we're creating a template for how other scientific instruments can be modified to produce trustworthy, verifiable data.
+
+### Modified ThermoFisher Scientific 7500 Fast
+The current implementation modifies a ThermoFisher Scientific 7500 Fast real-time PCR system by integrating a Zymbit secure element.
 
 ## System Architecture
 
@@ -135,3 +146,18 @@ The system enforces strict role separation through three highly-restricted user 
     ├── harden-ssh-zymbit.sh            # SSH Security Configuration
     └── script.py                       # Remote Configuration Utility
 ```
+
+## How Do I Build The Raspberry Pi Image?
+
+There's a [Taskfile](https://taskfile.dev) in this repository that you can use to run the update scripts locally.
+
+  - Install [Taskfile](https://taskfile.dev/installation/)
+  - Install [Docker](https://www.docker.com/)
+  - Create a `workspace` directory and place your `input.img` in that
+  - Run `task build`
+
+Alternatively, you can also manually run `docker`:
+```
+docker run --rm --privileged -v $(pwd)/workspace:/CustoPiZer/workspace $(pwd)/zymbit_image/scripts:/CustoPiZer/workspace/scripts ghcr.io/octoprint/custopizer:latest
+```
+
