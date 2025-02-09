@@ -1,4 +1,4 @@
-# Secure Attested PCR Machine
+# Verifiable Science on Modified PCR Machine
 
 Scientific fraud kills. At Duke, 117 cancer patients received wrong treatments due to fabricated data. At Harvard, fake cardiac stem cell research led to years of invalid clinical trials. At Brigham and Women's, fictional pain studies changed treatment protocols nationwide.
 
@@ -32,10 +32,14 @@ Future versions will incorporate sample ID verification and process recording, r
 ## Toward Verifiable Science
 
 This project is a first step toward a future where scientific results are cryptographically verifiable from instrument to publication. Imagine:
+
 * Mass spectrometers that sign their molecular weight measurements
 * DNA sequencers that produce verifiable genome data
 * Clinical trial data that can be traced back to original instruments
 * Journals that require cryptographic proof of raw data
+
+![Yes, It Does Work!](https://github.com/user-attachments/assets/2a18538e-97b4-49e6-992a-efa706f72792)
+![No Known Issues!](https://github.com/user-attachments/assets/11f4ead3-e360-4dd7-8f75-377e7d903ac1)
 
 By starting with PCR - one of the most widely used and frequently manipulated techniques in biology - we're creating a template for how other scientific instruments can be modified to produce trustworthy, verifiable data.
 
@@ -169,3 +173,9 @@ Alternatively, you can also manually run `docker`:
 docker run --rm --privileged -v $(pwd)/workspace:/CustoPiZer/workspace $(pwd)/zymbit_image/scripts:/CustoPiZer/workspace/scripts ghcr.io/octoprint/custopizer:latest
 ```
 
+## What's Next?
+
+* Integration With Our Own CA.
+* Cross-Verifying Results Against What Enters The Unit.
+* Increasing The Level Of Auditability, Security On Zymbit.
+* Hardening The Windows XP Image.
