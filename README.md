@@ -38,10 +38,11 @@ This project is a first step toward a future where scientific results are crypto
 * Clinical trial data that can be traced back to original instruments
 * Journals that require cryptographic proof of raw data
 
+By starting with PCR - one of the most widely used and frequently manipulated techniques in biology - we're creating a template for how other scientific instruments can be modified to produce trustworthy, verifiable data.
+
+## Pictures Of The PCR Machine Working With Zymbit
 ![Yes, It Does Work!](https://github.com/user-attachments/assets/2a18538e-97b4-49e6-992a-efa706f72792)
 ![No Known Issues!](https://github.com/user-attachments/assets/11f4ead3-e360-4dd7-8f75-377e7d903ac1)
-
-By starting with PCR - one of the most widely used and frequently manipulated techniques in biology - we're creating a template for how other scientific instruments can be modified to produce trustworthy, verifiable data.
 
 ### Modified ThermoFisher Scientific 7500 Fast
 The current implementation modifies a ThermoFisher Scientific 7500 Fast real-time PCR system by integrating a Zymbit secure element.
