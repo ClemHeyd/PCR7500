@@ -6,11 +6,17 @@ These aren't isolated incidents. They represent a systemic problem: in biomedici
 
 ## Solving The Problem (We Hope)
 
+![It Looks Neater When Fully Assembled](https://github.com/user-attachments/assets/f65e7067-e016-4059-8a67-f6c5ea69fe41)
+
 We set out to take a widely-used piece of scientific equipment and make its results cryptographically verifiable, preventing result falsification. We chose PCR (Polymerase Chain Reaction) machines - the workhorses of molecular biology that detect DNA sequences in samples, used in everything from COVID testing to cancer research. By adding cryptographic signing directly to the instrument, results can't be altered after they're generated.
 
 Think of it as a digital notary for your PCR machine - once a result is signed, it can't be altered without detection.
 
 ## The Horrific Technical Struggle
+
+Scientific equipment is notoriously difficult to modify. The ThermoFisher 7500 Fast runs on Windows XP with proprietary drivers, and rewriting firmware risks damaging a $25,000 machine's precise thermal control and optical systems. Our solution: we virtualized the Windows XP environment, adding a cryptographic signature request passthrough and carefully wrapping the original software. This lets us securely sign results without touching the core PCR functionality.
+
+![After Much Time Struggling Against Windows XP](https://github.com/user-attachments/assets/53c85ba2-0ddd-4061-929e-1297c09b36c0)
 
 ### Key Security Features
 * Cryptographic signing of all test results via the Zymbit secure element
@@ -20,6 +26,8 @@ Think of it as a digital notary for your PCR machine - once a result is signed, 
 
 ### The (Minor) Catch
 The system is designed for use in supervised laboratory environments where sample chain of custody is maintained. While the machine can't prevent sample swapping before testing, it ensures that once a sample is tested, the results cannot be manipulated.
+
+Future versions will incorporate sample ID verification and process recording, reducing the risk of sample swapping or improper measurement procedures.
 
 ## Toward Verifiable Science
 
