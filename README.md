@@ -179,3 +179,7 @@ docker run --rm --privileged -v $(pwd)/workspace:/CustoPiZer/workspace $(pwd)/zy
 * Cross-Verifying Results Against What Enters The Unit.
 * Increasing The Level Of Auditability, Security On Zymbit.
 * Hardening The Windows XP Image.
+
+# Acknowledgements
+
+We thank Causality Network for their consistent support, particularly for providing the PCR machine!
