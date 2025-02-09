@@ -43,9 +43,40 @@ class AttestationDaemonError(Exception):
 # KEY MANAGEMENT
 ###############################################################################
 
+def save_private_key(private_key: ed25519.Ed25519PrivateKey, key_path: str) -> None:
+    """
+    Save an Ed25519 private key to disk in PEM format.
+    
+    :param private_key: The Ed25519 private key to save
+    :param key_path: Path where the private key will be stored
+    """
+    with open(key_path, "wb") as key_file:
+        key_file.write(private_key.private_bytes(
+            encoding=serialization.Encoding.PEM,
+            format=serialization.PrivateFormat.PKCS8,
+            encryption_algorithm=serialization.NoEncryption()
+        ))
+
+def save_public_key(public_key: ed25519.Ed25519PublicKey, output_dir: str) -> None:
+    """
+    Save an Ed25519 public key to the attestation results directory in PEM format.
+    
+    :param public_key: The Ed25519 public key to save
+    :param output_dir: Directory where the public key will be stored
+    """
+    os.makedirs(output_dir, exist_ok=True)
+    public_key_path = os.path.join(output_dir, "signing_key.pub.pem")
+    
+    with open(public_key_path, "wb") as pub_key_file:
+        pub_key_file.write(public_key.public_bytes(
+            encoding=serialization.Encoding.PEM,
+            format=serialization.PublicFormat.SubjectPublicKeyInfo
+        ))
+
 def get_signing_key(key_path: str = SIGNING_KEY_PATH) -> ed25519.Ed25519PrivateKey:
     """
     Retrieve or generate an Ed25519 private key.
+    If a new key pair is generated, the public key is saved to the attestation results directory.
 
     :param key_path: Path where the private key is stored or will be generated.
     :return: An Ed25519PrivateKey instance.
@@ -60,15 +91,13 @@ def get_signing_key(key_path: str = SIGNING_KEY_PATH) -> ed25519.Ed25519PrivateK
         except (ValueError, InvalidKey) as exc:
             raise AttestationDaemonError(f"Failed to load existing private key: {exc}") from exc
     else:
-        # Generate a new Ed25519 key pair
+        # Generate new key pair if none exists
         private_key = ed25519.Ed25519PrivateKey.generate()
-        # Save the private key
-        with open(key_path, "wb") as key_file:
-            key_file.write(private_key.private_bytes(
-                encoding=serialization.Encoding.PEM,
-                format=serialization.PrivateFormat.PKCS8,
-                encryption_algorithm=serialization.NoEncryption()
-            ))
+        
+        # Save both private and public keys
+        save_private_key(private_key, key_path)
+        save_public_key(private_key.public_key(), OUTPUT_BASE_DIR)
+        
         return private_key
 
 
