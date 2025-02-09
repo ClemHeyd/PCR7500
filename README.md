@@ -14,7 +14,7 @@ Think of it as a digital notary for your PCR machine - once a result is signed, 
 
 ## The Horrific Technical Struggle
 
-Scientific equipment is notoriously difficult to modify. The ThermoFisher 7500 Fast runs on Windows XP with proprietary drivers, and rewriting firmware risks damaging a $25,000 machine's precise thermal control and optical systems. Our solution: we virtualized the Windows XP environment, adding a cryptographic signature request passthrough and carefully wrapping the original software. This lets us securely sign results without touching the core PCR functionality.
+Scientific equipment is notoriously difficult to modify. The ThermoFisher 7500 Fast runs on Windows XP with proprietary drivers, and rewriting firmware risks damaging a $25,000 machine's precise thermal control and optical systems. This did not stop us: we virtualized the Windows XP environment. We also modified the base Windows XP opertating system to make tampering with results through the UI impossible, added unidirectional passthrough for exporting data with signatures, and carefully wrapping the original software to restrict dangerous features. This lets us securely sign results without touching the core PCR functionality.
 
 ![After Much Time Struggling Against Windows XP](https://github.com/user-attachments/assets/53c85ba2-0ddd-4061-929e-1297c09b36c0)
 
@@ -33,10 +33,9 @@ Future versions will incorporate sample ID verification and process recording, r
 
 This project is a first step toward a future where scientific results are cryptographically verifiable from instrument to publication. Imagine:
 
-* Mass spectrometers that sign their molecular weight measurements
 * DNA sequencers that produce verifiable genome data
 * Clinical trial data that can be traced back to original instruments
-* Journals that require cryptographic proof of raw data
+* Journals that require proof of raw data
 
 By starting with PCR - one of the most widely used and frequently manipulated techniques in biology - we're creating a template for how other scientific instruments can be modified to produce trustworthy, verifiable data.
 
