@@ -184,4 +184,6 @@ docker run --rm --privileged -v $(pwd)/workspace:/CustoPiZer/workspace $(pwd)/zy
 
 # Acknowledgements
 
+Much of this software was written and designed by Arbion Halili (@ToxicPine on GitHub).
+
 We thank Causality Network for their consistent support, particularly for providing the PCR machine!
