@@ -14,12 +14,14 @@ Think of it as a digital notary for your PCR machine - once a result is signed, 
 
 ## The Horrific Technical Struggle
 
-Scientific equipment is notoriously difficult to modify. The ThermoFisher 7500 Fast runs on Windows XP with proprietary drivers, and rewriting firmware risks damaging a $25,000 machine's precise thermal control and optical systems. This did not stop us: we virtualized the Windows XP environment. We also modified the base Windows XP opertating system to make tampering with results through the UI impossible, added unidirectional passthrough for exporting data with signatures, and carefully wrapping the original software to restrict dangerous features. This lets us securely sign results without touching the core PCR functionality.
+Scientific equipment is notoriously difficult to modify. The ThermoFisher 7500 Fast, for instance, can only be operated using a Windows XP application that relies on proprietary drivers. Rewriting its firmware to work with a secure operating system risks damaging this $25,000 machine’s precise thermal control and optical systems. This did not stop us. We ran the original PCR software inside a locked-down Windows XP virtual machine -- which itself is hosted within a Trusted Execution Environment (TEE). This setup lets users operate the PCR machine via the familiar 7500 application interface, while the virtualized XP environment is stripped of any additional functionality (attempts to modify test results are effectively blocked). The data is then automatically exported from the VM via a virtual serial bus, then cryptographically signed by the TEE’s secure element and made accessible via an instance of SSH running on the host operating system.
+
+This approach may be extended to many types of scientific equipment, regardless of how old they are.
 
 ![After Much Time Struggling Against Windows XP](https://github.com/user-attachments/assets/53c85ba2-0ddd-4061-929e-1297c09b36c0)
 
 ### Key Security Features
-* Cryptographic signing of all test results via the Zymbit secure element
+* Cryptographic signing of all test results via the Zymbit (TEE) secure element
 * Tamper-evident resin seals on all connections and access points
 * Any attempts to open or modify the machine result in visible damage to security seals
 * Secure boot and runtime attestation of the control software
